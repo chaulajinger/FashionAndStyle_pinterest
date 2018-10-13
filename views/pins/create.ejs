@@ -1,0 +1,29 @@
+<% layout('layout') %>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10">
+      <h1>Create a New Pin</h1>
+      <form role="form" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+           <lable for="titleOfPin">Title Of Pin:</lable>
+           <input type="text" class="form-control" name="titleOfPin" />
+        </div>
+        <div class="form-group">
+            <lable for="description">Description:</lable>
+            <textarea type="text" class="form-control" name="description"> </textarea>
+        </div>
+        <div class="form-group">
+            <lable for="username">Created By:</lable>
+            <input type="text" class="form-control" name="username" />
+        </div>
+        <div class="form-group">
+            <lable for="sampleFile">Image Path:</lable>
+            <input type="file" name="sampleFile" required="" />
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
