@@ -3,8 +3,6 @@ var path = require('path');
 var Pin = require('../models/pin');
 
 
-
-
 // route for create  //
 module.exports = function(app){
     app.route('/pins/create')
@@ -21,12 +19,12 @@ module.exports = function(app){
       pin.description = req.body.description;
       pin.username = req.body.username;
       pin.isSave = false;  // always false when user create a pin at initial time //
-      // File required   
+      // File required when user is creating a new pin  
       if(!req.files)
-        return JSON('error');
+        return json('error');
       //When user wants to upload a file it required unique number //
-      let sampleFile = req.files.samplefile;
-      let fileName = Math.random().toString(26).slice(2) + '.jpg'
+      let sampleFile = req.files.sampleFile;
+      let fileName = Math.random().toString(26).slice(2) + '.jpg';
       //All image will be saved inside below path //
       let path = './public/Files/' + fileName;   
       pin.path = '/Files/' + fileName;
@@ -38,9 +36,9 @@ module.exports = function(app){
       })
 
       // save Pin to the mongodb database //
-      pin.save(function(err){
+        pin.save(function(err, dbPin){
         if(err) throw err;      //if pin didn't save //
-        res.redirect('/pins/index');   
+        res.redirect('/pins/index', { pins: []});  // save successfully //
       })
 
     })
@@ -50,6 +48,14 @@ module.exports = function(app){
       Pin.find({},function(err, pins){
         res.render('pins/index', {pins: pins});
       })
-    })
 
+    })
+    // delete function
+    app.get('/pins/delete/:id', function(req,res,next){
+      Pin.find({_id: req.params.id}).remove()
+        .exec(function(err, foundPin){
+          res.redirect('/pins/index');
+    })
+   
+  }) 
   } 
